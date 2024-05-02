@@ -5,6 +5,7 @@ import queue
 
 # Helper Variables
 postLimit = 5
+topPostTime = "year"
 
 # Reddit developer account: 
 ID          = "7UI5BZd_IpRM-Opi3WtSOA"
@@ -30,7 +31,7 @@ seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     postCount = 1
-    for post in reddit.subreddit(subreddit).top(time_filter = 'hour', limit = postLimit):
+    for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
@@ -61,7 +62,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
-    for post in reddit.redditor(redditor).submissions.top(timer_filter = 'hour', limit = postLimit):
+    for post in reddit.redditor(redditor).submissions.top(timer_filter = topPostTime, limit = postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
