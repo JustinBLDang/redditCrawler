@@ -5,7 +5,6 @@ import queue
 
 # Helper Variables
 postLimit = 5
-json_str = ""
 
 # Reddit developer account: 
 ID          = "7UI5BZd_IpRM-Opi3WtSOA"
@@ -96,6 +95,7 @@ def crawlRedditor(redditor):
 
 # print(sys.getsizeof(json_str))
 def main():
+    json_str = ""
     # Seed our crawl
     subReddit.put(seed)
 
