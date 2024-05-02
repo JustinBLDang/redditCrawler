@@ -51,7 +51,8 @@ def crawlSubreddit(subreddit):
         commentCount = 1
         for comment in post.comments.list():
             print("\r", end='')
-            print(f"Downloading Comments: {commentCount}", end='', flush = True)            
+            print(f"Downloading Comments: {commentCount}", end='')
+            sys.stdout.flush()          
             comments.append(comment.body)
             commentCount += 1
         print("\n")
@@ -83,7 +84,8 @@ def crawlRedditor(redditor):
         commentCount = 1
         for comment in post.comments.list():
             print("\r", end='')
-            print(f"Downloading Comments: {commentCount}", end='', flush = True)       
+            print(f"Downloading Comments: {commentCount}", end='')     
+            sys.stdout.flush()  
             comments.append(comment.body)
             commentCount += 1
         sub_dict['comments'] = comments
