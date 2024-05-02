@@ -109,3 +109,5 @@ def main():
     #write json_str to crawl.json
     with open('crawl.json', 'w') as f:
         json.dump(items, f)
+
+main()
