@@ -7,7 +7,7 @@ AGENT       = "cs172"
 
 # Json setup:
 items = []
-fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'comments', 'num_comments')
+fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
 #           link                      image  text-body  upvotes                  time created
 # import requests
 # from bs4 import BeautifulSoup
@@ -28,17 +28,26 @@ reddit = praw.Reddit(
     user_agent=AGENT
 )
 
-for post in reddit.subreddit("Helldivers").hot(limit=10):
+for post in reddit.subreddit("Helldivers").hot(limit=1):
     # grab dictionary with attributes of object using vars()
     to_dict = vars(post)
 
-    # grab specific attributes specified in fields, written above
+    # grab specific attributes specified in fields, written above, for current post
     sub_dict = {field:to_dict[field] for field in fields}
+
+    # grab all comments for the current post
+    comments = []
+    post.comments.replace_more(limit=None)
+    for comment in post.comments.list():
+        comments.append(comment)
+    sub_dict['comments'] = comments
 
     # Create a new container that just has the field we want
     items.append(sub_dict)
 
+for item in items:
+    print(item)
 # Dump into json format and write to crawl.json
-json_str = json.dumps(items)
-with open('crawl.json', 'w') as f:
-    json.dump(items, f)
+# json_str = json.dumps(items)
+# with open('crawl.json', 'w') as f:
+#     json.dump(items, f)
