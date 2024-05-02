@@ -49,7 +49,7 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     print("Downloading Comments . . . ")
     for comment in post.comments.list():
         print(commentCount)
-        comments.append(str(comment))
+        comments.append(comment.body)
         commentCount += 1
     sub_dict['comments'] = comments
 
@@ -57,7 +57,9 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     items.append(sub_dict)
     postCount += 1
 
+for item in items:
+    print(item)
 # Dump into json format and write to crawl.json
-json_str = json.dumps(items)
-with open('crawl.json', 'w') as f:
-    json.dump(items, f)
+# json_str = json.dumps(items)
+# with open('crawl.json', 'w') as f:
+#     json.dump(items, f)
