@@ -52,6 +52,7 @@ def crawlSubreddit(subreddit):
             print(f"Downloading Comments: {commentCount}", end='\r')
             comments.append(comment.body)
             commentCount += 1
+        print()
         sub_dict['comments'] = comments
 
         # Create a new container that just has the field we want
