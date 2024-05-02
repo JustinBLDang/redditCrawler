@@ -51,7 +51,8 @@ def crawlSubreddit(subreddit):
         commentCount = 1
         for comment in post.comments.list():
             print("\r", end='')
-            print(f"Downloading Comments: {commentCount}", end='\r', flush = True)            comments.append(comment.body)
+            print(f"Downloading Comments: {commentCount}", end='\r', flush = True)            
+            comments.append(comment.body)
             commentCount += 1
         print("\n")
         sub_dict['comments'] = comments
