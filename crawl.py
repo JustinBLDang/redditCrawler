@@ -30,7 +30,7 @@ seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     postCount = 1
-    for post in reddit.subreddit(seed).new(limit=postLimit):
+    for post in reddit.subreddit(seed).hot(limit=postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
