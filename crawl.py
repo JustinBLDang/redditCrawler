@@ -1,5 +1,6 @@
 import praw
 import json
+import sys
 
 # Helper Variables
 postCount = 1
@@ -10,21 +11,11 @@ ID          = "7UI5BZd_IpRM-Opi3WtSOA"
 SECRET      = "mw-ViF2wBo6gEwE_PuB4kQHermrjjg"
 AGENT       = "cs172"
 
-# Json setup:
+# Json setup and data containers:
 items = []
-fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
+users = []
+fields = ('permalink', 'author', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
 #           link                      image  text-body  upvotes                  time created
-# import requests
-# from bs4 import BeautifulSoup
-# seed = "https://en.wikipedia.org/wiki/Randomness"
-
-# page = requests.get(seed)
-# soup = BeautifulSoup(page.content, "html.parser")
-
-# for link in soup.find_all('a'):
-#     # do whatever with links here
-#     print("hi")
-
 
 # Reddit read only mode
 reddit = praw.Reddit(
@@ -38,8 +29,11 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     to_dict = vars(post)
     print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
 
-    # grab specific attributes specified in fields, written above, for current post
+    # grab specific attributes specified in fields, written above, for current post. 
     sub_dict = {field:to_dict[field] for field in fields}
+
+    # Prepare crawler for diving into users
+    users.append(post.author)
 
     # grab all comments for the current post
     comments = []
@@ -56,7 +50,7 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     # Create a new container that just has the field we want
     items.append(sub_dict)
     postCount += 1
-
+print(sys.getsizeof(items))
 # for item in items:
 #     print(item)
 # Dump into json format and write to crawl.json
