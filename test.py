@@ -1,9 +1,14 @@
-fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments', 'comments')
+import json
+fields = ("permalink", "user")
 
 testdictionary = {field:field for field in fields}
 
-testdictionary['test'] = ["I am testing how to add to a dictionary.", "banana", "eggs", "combine to make dinner"]
+# testdictionary['test'] = ["I am testing how to add to a dictionary.", "banana", "eggs", "combine to make dinner"]
 testarray = []
 testarray.append(testdictionary)
+jsonstr = json.dumps(testarray)
+result = json.loads(jsonstr)
+result.append(testdictionary)
 
-print(testarray[0]['test'])
+print(testarray)
+print(result)
