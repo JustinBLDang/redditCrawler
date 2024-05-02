@@ -1,5 +1,10 @@
 import praw
 import json
+
+# Helper Variables
+postCount = 0
+postLimit = 10
+
 # Reddit developer account: 
 ID          = "7UI5BZd_IpRM-Opi3WtSOA"
 SECRET      = "mw-ViF2wBo6gEwE_PuB4kQHermrjjg"
@@ -28,7 +33,8 @@ reddit = praw.Reddit(
     user_agent=AGENT
 )
 
-for post in reddit.subreddit("Helldivers").hot(limit=1):
+for post in reddit.subreddit("Helldivers").hot(limit=postLimit):
+    print(f"Parsing Posts[{postCount}:{postLimit}]")
     # grab dictionary with attributes of object using vars()
     to_dict = vars(post)
 
@@ -38,12 +44,18 @@ for post in reddit.subreddit("Helldivers").hot(limit=1):
     # grab all comments for the current post
     comments = []
     post.comments.replace_more(limit=None)
+    # Helper counter for comments
+    commentCount = 0
+    print("Downloading Comments . . . ")
     for comment in post.comments.list():
+        print(commentCount)
         comments.append(comment)
+        commentCount += 1
     sub_dict['comments'] = comments
 
     # Create a new container that just has the field we want
     items.append(sub_dict)
+    postCount += 1
 
 for item in items:
     print(item)
