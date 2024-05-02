@@ -2,7 +2,7 @@ import praw
 import json
 
 # Helper Variables
-postCount = 0
+postCount = 1
 postLimit = 10
 
 # Reddit developer account: 
@@ -45,11 +45,11 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     comments = []
     post.comments.replace_more(limit=None)
     # Helper counter for comments
-    commentCount = 0
+    commentCount = 1
     print("Downloading Comments . . . ")
     for comment in post.comments.list():
         print(commentCount)
-        comments.append(comment)
+        comments.append(str(comment))
         commentCount += 1
     sub_dict['comments'] = comments
 
