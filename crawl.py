@@ -53,11 +53,11 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     items.append(sub_dict)
     postCount += 1
 
-print(sys.getsizeof(items))
 # for item in items:
 #     print(item)
 
 # Dump into json format and write to crawl.json
 json_str = json.dumps(items)
+print(sys.getsizeof(json_str))
 with open('crawl.json', 'w') as f:
     json.dump(items, f)
