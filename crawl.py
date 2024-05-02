@@ -14,10 +14,12 @@ ID          = "7UI5BZd_IpRM-Opi3WtSOA"
 SECRET      = "mw-ViF2wBo6gEwE_PuB4kQHermrjjg"
 AGENT       = "cs172"
 
+# Reddit read only mode
 reddit = praw.Reddit(
     client_id=ID,
     client_secret=SECRET,
     user_agent=AGENT
 )
 
-print(reddit.read_only)
+for submission in reddit.subreddit("Helldivers").hot(limit=10):
+    print(submission.title)
