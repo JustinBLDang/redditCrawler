@@ -33,7 +33,7 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     sub_dict = {field:to_dict[field] for field in fields}
 
     # Prepare crawler for diving into users and add users to json
-    sub_dict['author'] = post.author
+    sub_dict['author'] = post.name
     users.append(post.author)
 
     # grab all comments for the current post
@@ -52,9 +52,11 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     # Create a new container that just has the field we want
     items.append(sub_dict)
     postCount += 1
+
 print(sys.getsizeof(items))
 # for item in items:
 #     print(item)
+
 # Dump into json format and write to crawl.json
 json_str = json.dumps(items)
 with open('crawl.json', 'w') as f:
