@@ -5,6 +5,7 @@ import queue
 
 # Helper Variables
 postLimit = 5
+commentThreshold = 5
 topPostTime = "year"
 
 # Reddit developer account: 
@@ -36,7 +37,6 @@ def crawlSubreddit(subreddit):
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
 
-        print("working2")
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
 
@@ -44,10 +44,9 @@ def crawlSubreddit(subreddit):
         sub_dict['author'] = post.name
         users.put(post.author)
 
-        print("working2")
         # grab all comments for the current post
         comments = []
-        post.comments.replace_more(limit=None)
+        post.comments.replace_more(limit=None, threshold=commentThreshold)
 
         # Helper counter for comments
         commentCount = 1
@@ -81,7 +80,7 @@ def crawlRedditor(redditor):
 
         # grab all comments for the current post
         comments = []
-        post.comments.replace_more(limit=None)
+        post.comments.replace_more(limit=None, threshold=commentThreshold)
 
         # Helper counter for comments
         commentCount = 1
