@@ -20,3 +20,4 @@ reddit = praw.Reddit(
     user_agent=AGENT
 )
 
+print(reddit.read_only)
