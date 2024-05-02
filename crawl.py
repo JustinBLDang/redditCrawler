@@ -50,8 +50,8 @@ def crawlSubreddit(subreddit):
         # Helper counter for comments
         commentCount = 1
         for comment in post.comments.list():
-            print(f"Downloading Comments: {commentCount}", end='\r', flush = True)
-            comments.append(comment.body)
+            print("\r", end='')
+            print(f"Downloading Comments: {commentCount}", end='\r', flush = True)            comments.append(comment.body)
             commentCount += 1
         print("\n")
         sub_dict['comments'] = comments
@@ -81,7 +81,8 @@ def crawlRedditor(redditor):
         # Helper counter for comments
         commentCount = 1
         for comment in post.comments.list():
-            print(f"Downloading Comments: {commentCount}", end='\r', flush = True)
+            print("\r", end='')
+            print(f"Downloading Comments: {commentCount}", end='\r', flush = True)       
             comments.append(comment.body)
             commentCount += 1
         sub_dict['comments'] = comments
