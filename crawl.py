@@ -30,10 +30,10 @@ seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     postCount = 1
-    for post in reddit.subreddit(seed).hot(limit=postLimit):
+    for post in reddit.subreddit(subreddit).top('now'):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
-        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
+        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
 
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
@@ -52,7 +52,7 @@ def crawlSubreddit(subreddit):
             print(f"Downloading Comments: {commentCount}", end='\r', flush = True)
             comments.append(comment.body)
             commentCount += 1
-        print()
+        print("\n")
         sub_dict['comments'] = comments
 
         # Create a new container that just has the field we want
@@ -61,7 +61,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
-    for post in reddit.redditor(redditor).submissions.top('all'):
+    for post in reddit.redditor(redditor).submissions.top('now'):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
