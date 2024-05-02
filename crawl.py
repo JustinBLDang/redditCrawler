@@ -33,7 +33,7 @@ def crawlSubreddit(subreddit):
     for post in reddit.subreddit(seed).new(limit=postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
-        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
+        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
 
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
@@ -63,7 +63,7 @@ def crawlRedditor(redditor):
     for post in reddit.redditor(redditor).submissions.top('all'):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
-        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
+        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
 
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
