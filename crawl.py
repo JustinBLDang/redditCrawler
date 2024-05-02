@@ -30,7 +30,7 @@ seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     postCount = 1
-    for post in reddit.subreddit(subreddit).top('hour'):
+    for post in reddit.subreddit(subreddit).top('hour', limit = postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
@@ -61,7 +61,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
-    for post in reddit.redditor(redditor).submissions.top('hour'):
+    for post in reddit.redditor(redditor).submissions.top('hour', limit = postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
