@@ -14,7 +14,7 @@ AGENT       = "cs172"
 # Json setup and data containers:
 items = []
 users = []
-fields = ('permalink', 'author', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
+fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
 #           link                      image  text-body  upvotes                  time created
 
 # Reddit read only mode
@@ -32,12 +32,14 @@ for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     # grab specific attributes specified in fields, written above, for current post. 
     sub_dict = {field:to_dict[field] for field in fields}
 
-    # Prepare crawler for diving into users
+    # Prepare crawler for diving into users and add users to json
+    sub_dict['author'] = post.author
     users.append(post.author)
 
     # grab all comments for the current post
     comments = []
     post.comments.replace_more(limit=None)
+
     # Helper counter for comments
     commentCount = 1
     print("Downloading Comments . . . ")
