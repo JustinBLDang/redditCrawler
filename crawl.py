@@ -33,10 +33,10 @@ reddit = praw.Reddit(
     user_agent=AGENT
 )
 
-for post in reddit.subreddit("Helldivers").hot(limit=postLimit):
-    print(f"Parsing Posts[{postCount}:{postLimit}]")
+for post in reddit.subreddit("Helldivers").new(limit=postLimit):
     # grab dictionary with attributes of object using vars()
     to_dict = vars(post)
+    print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
 
     # grab specific attributes specified in fields, written above, for current post
     sub_dict = {field:to_dict[field] for field in fields}
@@ -57,9 +57,7 @@ for post in reddit.subreddit("Helldivers").hot(limit=postLimit):
     items.append(sub_dict)
     postCount += 1
 
-for item in items:
-    print(item)
 # Dump into json format and write to crawl.json
-# json_str = json.dumps(items)
-# with open('crawl.json', 'w') as f:
-#     json.dump(items, f)
+json_str = json.dumps(items)
+with open('crawl.json', 'w') as f:
+    json.dump(items, f)
