@@ -49,7 +49,7 @@ def crawlSubreddit(subreddit):
         # Helper counter for comments
         commentCount = 1
         for comment in post.comments.list():
-            print(f"Downloading Comments: {commentCount}", end='\r')
+            print(f"\rDownloading Comments: {commentCount}")
             comments.append(comment.body)
             commentCount += 1
         print()
