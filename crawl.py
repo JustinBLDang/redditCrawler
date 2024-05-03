@@ -44,8 +44,8 @@ def crawlSubreddit(subreddit):
         sub_dict = {field:dict[field] for field in fields}
 
         # Prepare crawler for diving into users and add users to json
-        sub_dict['author'] = post.name
-        users.put(post.name)
+        sub_dict['author'] = post.author.name
+        users.put(post.author.name)
 
         # grab all comments for the current post
         comments = []
@@ -77,8 +77,8 @@ def crawlRedditor(redditor):
         sub_dict = {field:dict[field] for field in fields}
 
         # Feed crawler users and add users to json
-        sub_dict['author'] = post.name
-        users.put(post.author)
+        sub_dict['author'] = post.author.name
+        users.put(post.author.name)
 
         # grab all comments for the current post
         comments = []
@@ -109,17 +109,17 @@ def main():
 
     # While sys.getsizeof(json_str) < 100100000, add the extra 1000000 so that we go above 100mb
     # continue scraping through users and subreddits the user has posted in
-    # while(sys.getsizeof(json_str) < targetFileSize):
-    #     crawlSubreddit(subReddit.get())
-    #     crawlRedditor(users.get())
+    while(sys.getsizeof(json_str) < targetFileSize):
+        crawlSubreddit(subReddit.get())
+        crawlRedditor(users.get())
 
-    #     json_str = json.dumps(items, sort_keys=True, indent=4)
+        json_str = json.dumps(items, sort_keys=True, indent=4)
 
-    # #write json_str to crawl.json
-    # with open('crawl.json', 'w') as f:
-    #     json.dump(items, f)
-    crawlSubreddit(subReddit.get())
-    print(type(users.get()))
+    #write json_str to crawl.json
+    with open('crawl.json', 'w') as f:
+        json.dump(items, f)
+    # crawlSubreddit(subReddit.get())
+    # print(type(users.get()))
 
 
 main()
