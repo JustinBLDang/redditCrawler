@@ -45,7 +45,6 @@ def crawlSubreddit(subreddit):
 
         # Prepare crawler for diving into users and add users to json
         sub_dict['author'] = post.name
-        print(f"author: {post.name}")
         users.put(post.name)
 
         # grab all comments for the current post
