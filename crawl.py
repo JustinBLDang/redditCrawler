@@ -112,7 +112,6 @@ def main():
     # continue scraping through users and subreddits the user has posted in
     while(sys.getsizeof(json_str) < targetFileSize):
         crawlSubreddit(subReddit.get())
-        print(user)
         crawlRedditor(users.get())
 
         json_str = json.dumps(items, sort_keys=True, indent=4)
