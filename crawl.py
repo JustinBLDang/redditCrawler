@@ -68,7 +68,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
-    for post in reddit.redditor(redditor).submissions.top(timer_filter = topPostTime, limit = postLimit):
+    for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
