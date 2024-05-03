@@ -67,6 +67,7 @@ def crawlSubreddit(subreddit):
         postCount += 1
 
 def crawlRedditor(redditor):
+    postCount = 1
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
         # grab dictionary with attributes of object using vars()
