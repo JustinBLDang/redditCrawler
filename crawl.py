@@ -110,18 +110,18 @@ def main():
 
     # While sys.getsizeof(json_str) < 100100000, add the extra 1000000 so that we go above 100mb
     # continue scraping through users and subreddits the user has posted in
-    # while(sys.getsizeof(json_str) < targetFileSize):
-    #     crawlSubreddit(subReddit.get())
-    #     print(user)
-    #     crawlRedditor(users.get())
+    while(sys.getsizeof(json_str) < targetFileSize):
+        crawlSubreddit(subReddit.get())
+        print(user)
+        crawlRedditor(users.get())
 
-    #     json_str = json.dumps(items, sort_keys=True, indent=4)
+        json_str = json.dumps(items, sort_keys=True, indent=4)
 
-    # #write json_str to crawl.json
-    # with open('crawl.json', 'w') as f:
-    #     json.dump(items, f)
-    crawlSubreddit(subReddit.get())
-    print(users.get())
+    #write json_str to crawl.json
+    with open('crawl.json', 'w') as f:
+        json.dump(items, f)
+    # crawlSubreddit(subReddit.get())
+    # print(users.get())
 
 
 main()
