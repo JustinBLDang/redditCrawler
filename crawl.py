@@ -6,6 +6,7 @@ import queue
 # Helper Variables
 postLimit = 5
 commentThreshold = 5
+targetFileSize = 100100000
 topPostTime = "year"
 
 # Reddit developer account: 
@@ -108,7 +109,7 @@ def main():
 
     # While sys.getsizeof(json_str) < 100100000, add the extra 1000000 so that we go above 100mb
     # continue scraping through users and subreddits the user has posted in
-    # while(sys.getsizeof(json_str) < 100100000):
+    # while(sys.getsizeof(json_str) < targetFileSize):
     #     crawlSubreddit(subReddit.get())
 
     #     json_str = json.dumps(items, sort_keys=True, indent=4)
