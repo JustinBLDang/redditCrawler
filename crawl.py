@@ -16,6 +16,8 @@ AGENT       = "cs172"
 
 # Json setup and data containers:
 items = []
+crawledUsers = set()
+crawledSubreddit = set()
 users = queue.Queue()
 subReddit = queue.Queue()
 fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
@@ -43,7 +45,7 @@ def crawlSubreddit(subreddit):
 
         # Prepare crawler for diving into users and add users to json
         sub_dict['author'] = post.name
-        users.put(post.author)
+        users.put(post.name)
 
         # grab all comments for the current post
         comments = []
