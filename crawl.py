@@ -51,7 +51,6 @@ def crawlSubreddit(subreddit):
 
         # Helper counter for comments
         commentCount = 1
-        print("comments:\n")
         for comment in post.comments.list():
             print("\r", end='')
             print(f"Downloading Comments: {commentCount}", end='', flush=True)
@@ -105,17 +104,17 @@ def main():
     json_str = ""
     # Seed our crawl
     subReddit.put(seed)
-    crawlSubreddit(subReddit.get())
 
     # While sys.getsizeof(json_str) < 100100000, add the extra 1000000 so that we go above 100mb
     # continue scraping through users and subreddits the user has posted in
-    # while(sys.getsizeof(json_str) < targetFileSize):
-    #     crawlSubreddit(subReddit.get())
+    while(sys.getsizeof(json_str) < targetFileSize):
+        crawlSubreddit(subReddit.get())
+        crawlRedditor(users.get())
 
-    #     json_str = json.dumps(items, sort_keys=True, indent=4)
+        json_str = json.dumps(items, sort_keys=True, indent=4)
 
-    # #write json_str to crawl.json
-    # with open('crawl.json', 'w') as f:
-    #     json.dump(items, f)
+    #write json_str to crawl.json
+    with open('crawl.json', 'w') as f:
+        json.dump(items, f)
 
 main()
