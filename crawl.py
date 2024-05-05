@@ -74,7 +74,7 @@ def crawlSubreddit(subreddit):
 
         # grab all comments for the current post
         comments = []
-        post.comments.replace_more(limit=None, threshold=commentThreshold)
+        post.comments.replace_more(limit=commentLimit, threshold=commentThreshold)
 
         # Helper counter for comments
         commentCount = 1
@@ -129,7 +129,7 @@ def crawlRedditor(redditor):
 
         # grab all comments for the current post
         comments = []
-        post.comments.replace_more(limit=None, threshold=commentThreshold)
+        post.comments.replace_more(limit=commentLimit, threshold=commentThreshold)
 
         # Helper counter for comments
         commentCount = 1
