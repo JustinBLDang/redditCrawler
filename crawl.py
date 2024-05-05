@@ -14,14 +14,11 @@ ID          = "7UI5BZd_IpRM-Opi3WtSOA"
 SECRET      = "mw-ViF2wBo6gEwE_PuB4kQHermrjjg"
 AGENT       = "cs172"
 
-# Seed
-seed = "Helldivers"
-
 # Json setup and data containers:
 items = []
 crawledUsers = set()
 crawledPosts = set()
-crawledSubreddit = set({seed, "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
+crawledSubreddit = set({"AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
                         "MachineLearning", "UCDavis", "UCI", "stanford", "USC"})
@@ -37,6 +34,8 @@ reddit = praw.Reddit(
     user_agent=AGENT
 )
 
+# Seed
+seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     if(subreddit in crawledSubreddit):
@@ -49,12 +48,12 @@ def crawlSubreddit(subreddit):
         if(post.title in crawledPosts):
             continue
 
+        # Add post to dupe check
+        crawledPosts.add(post.title)
+
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
-
-        # Add post to dupe check
-        crawledPosts.add(post.title)
 
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
@@ -84,8 +83,11 @@ def crawlSubreddit(subreddit):
         items.append(sub_dict)
         postCount += 1
 
+    # add subreddit to crawled subreddits
+    crawlSubreddit.add(subreddit)
+
 def crawlRedditor(redditor):
-    if(subreddit in crawledSubreddit):
+    if(redditor in crawledUsers):
         return
     
     postCount = 1
@@ -96,6 +98,9 @@ def crawlRedditor(redditor):
         if(post.title in crawledPosts):
             continue
 
+        # Add post to dupe check
+        crawledPosts.add(post.title)
+
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
@@ -104,7 +109,7 @@ def crawlRedditor(redditor):
         sub_dict = {field:dict[field] for field in fields}
 
         # Feed crawler subreddits, 
-        if(post.author.name not in crawledUsers):
+        if(post.subreddit.name not in crawledSubreddit):
             subReddit.put(post.subreddit.name)
             crawledSubreddit.add(post.subreddit.name)
 
@@ -125,6 +130,9 @@ def crawlRedditor(redditor):
         # Add post to items, which will be stored later in json
         items.append(sub_dict)
         postCount += 1
+
+    # add redditor to crawled redditors
+    crawlRedditor.add(redditor)
 
 # print(sys.getsizeof(json_str))
 def main():
