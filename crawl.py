@@ -48,7 +48,12 @@ def crawlSubreddit(subreddit):
         # ignore posts we already crawled
         if(post.title in crawledPosts):
             print("Dupe post: ")
+            postCount += 1
             continue
+
+        if(postCount > postLimit):
+            print(f"Skipping {subreddit}, reached search limit.\n")
+            return
 
         # Add post to dupe check
         crawledPosts.add(post.title)
@@ -99,7 +104,12 @@ def crawlRedditor(redditor):
         # ignore posts we already crawled
         if(post.title in crawledPosts):
             print("Dupe post: ")
+            postCount += 1
             continue
+
+        if(postCount > postLimit):
+            print(f"Skipping {redditor}, reached search limit.\n")
+            return
 
         # Add post to dupe check
         crawledPosts.add(post.title)
@@ -144,7 +154,10 @@ def main():
 
     # While sys.getsizeof(json_str) < 100100000, add the extra 1000000 so that we go above 100mb
     # continue scraping through users and subreddits the user has posted in
-    while(sys.getsizeof(json_str) < targetFileSize):
+    while((sys.getsizeof(json_str) < targetFileSize)):
+        if(subReddit.empty() and users.empty()):
+            print("------------------------------------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
+            break
         crawlSubreddit(subReddit.get())
         crawlRedditor(users.get())
 
