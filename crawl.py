@@ -5,7 +5,7 @@ import queue
 import time
 
 # Helper Variables
-postLimit = 10000
+postLimit = 800
 commentThreshold = 2
 commentLimit = 5
 sleepTime = 2
@@ -54,7 +54,7 @@ def crawlSubreddit(subreddit):
             time.sleep(sleepTime)
 
         # ignore posts we already crawled
-        if(post.title in crawledPosts or type(post) is None):
+        if(post.title in crawledPosts or post is None):
             print("Dupe post or none existent: ")
             postCount += 1
             continue
@@ -115,7 +115,7 @@ def crawlRedditor(redditor):
             time.sleep(sleepTime)
 
         # ignore posts we already crawled
-        if(post.title in crawledPosts or type(post) is None):
+        if(post.title in crawledPosts or post is None):
             print("Dupe post or none existent: ")
             postCount += 1
             continue
