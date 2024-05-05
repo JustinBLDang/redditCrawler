@@ -123,7 +123,7 @@ def crawlRedditor(redditor):
         if(postCount > postLimit):
             print(f"Skipping {redditor}, reached search limit.\n")
             return
-
+        print("Working")
         # Add post to dupe check
         crawledPosts.add(post.title)
 
