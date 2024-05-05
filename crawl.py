@@ -14,10 +14,16 @@ ID          = "7UI5BZd_IpRM-Opi3WtSOA"
 SECRET      = "mw-ViF2wBo6gEwE_PuB4kQHermrjjg"
 AGENT       = "cs172"
 
+# Seed
+seed = "Helldivers"
+
 # Json setup and data containers:
 items = []
 crawledUsers = set()
-crawledSubreddit = set()
+crawledSubreddit = set({seed, "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
+                        "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
+                        "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
+                        "MachineLearning", "UCDavis", "UCI", "stanford", "USC"})
 users = queue.Queue()
 subReddit = queue.Queue()
 fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
@@ -30,10 +36,9 @@ reddit = praw.Reddit(
     user_agent=AGENT
 )
 
-# Seed
-seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
+    print(f"-----------------------------------------------\nCrawling {subreddit}\n")
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
         # grab dictionary with attributes of object using vars()
@@ -43,9 +48,11 @@ def crawlSubreddit(subreddit):
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
 
-        # Prepare crawler for diving into users and add users to json
-        sub_dict['author'] = post.author.name
-        users.put(post.author.name)
+        # Feed crawler users, add users to json, add user to dupe check
+        if(post.author.name not in crawledUsers):
+            sub_dict['author'] = post.author.name
+            users.put(post.author.name)
+            crawledUsers.add(post.author.name)
 
         # grab all comments for the current post
         comments = []
@@ -68,6 +75,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     postCount = 1
+    print(f"-----------------------------------------------\nCrawling {redditor}\n")
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
         # grab dictionary with attributes of object using vars()
@@ -77,9 +85,10 @@ def crawlRedditor(redditor):
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
 
-        # Feed crawler users and add users to json
-        sub_dict['author'] = post.author.name
-        users.put(post.author.name)
+        # Feed crawler subreddits, 
+        if(post.author.name not in crawledUsers):
+            subReddit.put(post.subreddit.name)
+            crawledSubreddit.add(post.subreddit.name)
 
         # grab all comments for the current post
         comments = []
@@ -97,9 +106,6 @@ def crawlRedditor(redditor):
 
         # Add post to items, which will be stored later in json
         items.append(sub_dict)
-
-        # Feed crawler new subreddits
-        subReddit.put(post.subreddit.name)
         postCount += 1
 
 # print(sys.getsizeof(json_str))
@@ -119,8 +125,9 @@ def main():
     #write json_str to crawl.json
     with open('crawl.json', 'w') as f:
         json.dump(items, f)
-    # crawlSubreddit(subReddit.get())
-    # print(type(users.get()))
+    
+    # Output Subreddits for double checking dupes
+    print(crawledSubreddit)
 
 
 main()
