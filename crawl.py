@@ -2,17 +2,19 @@ import praw
 import json
 import sys
 import queue
+import time
 
 # Helper Variables
 postLimit = 10000
 commentThreshold = 5
+commentLimit = 20
 targetFileSize = 100100000
 topPostTime = "year"
 
 # Reddit developer account: 
 ID          = "7UI5BZd_IpRM-Opi3WtSOA"
 SECRET      = "mw-ViF2wBo6gEwE_PuB4kQHermrjjg"
-AGENT       = "cs172"
+AGENT       = "crimp go"
 
 # Json setup and data containers:
 items = []
