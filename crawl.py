@@ -89,7 +89,7 @@ def crawlSubreddit(subreddit):
             commentCount = 1
             for comment in post.comments.list():
                 print("\r", end='')
-                print(f"Downloading Comments: {commentCount}", end='', flush=True)
+                print(f"Downloading Comments: {commentCount}\n", end='', flush=True)
                 sys.stdout.flush()          
                 comments.append(comment.body)
                 commentCount += 1
@@ -166,6 +166,13 @@ def crawlRedditor(redditor):
     # add redditor to crawled redditors
     crawledUsers.add(redditor)
 
+def subRedditExists(subReddit):
+    try:
+        reddit.subreddits.search_by_name(subReddit, exact = True)
+    except prawcore.exceptions.Redirect:
+        return False
+    return True
+
 # print(sys.getsizeof(json_str))
 def main():
     json_str = ""
@@ -178,8 +185,10 @@ def main():
         if(subReddit.empty() and users.empty()):
             print("------------------------------------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
             break
+        
         subRedditName = subReddit.get()
-        crawlSubreddit(subRedditName)
+        if(subRedditExists(subRedditName)):
+            crawlSubreddit(subRedditName)
 
         # ensure we get subreddits for next iteration
         while(subReddit.empty()):
@@ -188,8 +197,8 @@ def main():
         json_str = json.dumps(items, sort_keys=True, indent=4)
         
         #write json_str to crawl.json
-        with open(f'{subRedditName}.json', 'w') as f:
-            json.dump(items, f)
+        # with open(f'{subRedditName}.json', 'w') as f:
+        #     json.dump(items, f)
 
     
     
