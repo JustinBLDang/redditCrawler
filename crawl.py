@@ -50,54 +50,57 @@ def crawlSubreddit(subreddit):
     print(f"-----------------------------------------------\nCrawling {subreddit}\n")
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
-        # try to avoid error 429
-        if(postCount % numPostsPerSleep == 0):
-            time.sleep(sleepTime)
+        try:
+            # try to avoid error 429
+            if(postCount % numPostsPerSleep == 0):
+                time.sleep(sleepTime)
 
-        # ignore posts we already crawled
-        if(post.title in crawledPosts or post is None):
-            print("Dupe post or none existent: ")
+            # ignore posts we already crawled
+            if(post.title in crawledPosts or post is None):
+                print("Dupe post or none existent: ")
+                postCount += 1
+                continue
+
+            if(postCount > postLimit):
+                print(f"Skipping {subreddit}, reached search limit.\n")
+                return
+
+            # Add post to dupe check
+            crawledPosts.add(post.title)
+
+            # grab dictionary with attributes of object using vars()
+            dict = vars(post)
+            print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
+
+            # grab specific attributes specified in fields, written above, for current post. 
+            sub_dict = {field:dict[field] for field in fields}
+
+            # Feed crawler users, add users to json, add user to dupe check
+            if(post.author is not None):
+                if(post.author.name not in crawledUsers):
+                    sub_dict['author'] = post.author.name
+                    users.put(post.author.name)
+
+            # grab all comments for the current post
+            comments = []
+            post.comments.replace_more(limit=commentLimit, threshold=commentThreshold)
+
+            # Helper counter for comments
+            commentCount = 1
+            for comment in post.comments.list():
+                print("\r", end='')
+                print(f"Downloading Comments: {commentCount}", end='', flush=True)
+                sys.stdout.flush()          
+                comments.append(comment.body)
+                commentCount += 1
+            print("\n")
+            sub_dict['comments'] = comments
+
+            # Create a new container that just has the field we want
+            items.append(sub_dict)
             postCount += 1
+        except prawcore.exceptions.Redirect:
             continue
-
-        if(postCount > postLimit):
-            print(f"Skipping {subreddit}, reached search limit.\n")
-            return
-
-        # Add post to dupe check
-        crawledPosts.add(post.title)
-
-        # grab dictionary with attributes of object using vars()
-        dict = vars(post)
-        print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
-
-        # grab specific attributes specified in fields, written above, for current post. 
-        sub_dict = {field:dict[field] for field in fields}
-
-        # Feed crawler users, add users to json, add user to dupe check
-        if(post.author is not None):
-            if(post.author.name not in crawledUsers):
-                sub_dict['author'] = post.author.name
-                users.put(post.author.name)
-
-        # grab all comments for the current post
-        comments = []
-        post.comments.replace_more(limit=commentLimit, threshold=commentThreshold)
-
-        # Helper counter for comments
-        commentCount = 1
-        for comment in post.comments.list():
-            print("\r", end='')
-            print(f"Downloading Comments: {commentCount}", end='', flush=True)
-            sys.stdout.flush()          
-            comments.append(comment.body)
-            commentCount += 1
-        print("\n")
-        sub_dict['comments'] = comments
-
-        # Create a new container that just has the field we want
-        items.append(sub_dict)
-        postCount += 1
 
     # add subreddit to crawled subreddits
     crawledSubreddit.add(subreddit)
