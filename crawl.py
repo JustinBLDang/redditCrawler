@@ -20,6 +20,7 @@ seed = "Helldivers"
 # Json setup and data containers:
 items = []
 crawledUsers = set()
+crawledPosts = set()
 crawledSubreddit = set({seed, "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
@@ -38,12 +39,22 @@ reddit = praw.Reddit(
 
 
 def crawlSubreddit(subreddit):
+    if(subreddit in crawledSubreddit):
+        return
+    
     print(f"-----------------------------------------------\nCrawling {subreddit}\n")
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
+        # ignore posts we already crawled
+        if(post.title in crawledPosts):
+            continue
+
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
+
+        # Add post to dupe check
+        crawledPosts.add(post.title)
 
         # grab specific attributes specified in fields, written above, for current post. 
         sub_dict = {field:dict[field] for field in fields}
@@ -74,10 +85,17 @@ def crawlSubreddit(subreddit):
         postCount += 1
 
 def crawlRedditor(redditor):
+    if(subreddit in crawledSubreddit):
+        return
+    
     postCount = 1
     print(f"-----------------------------------------------\nCrawling {redditor}\n")
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
+        # ignore posts we already crawled
+        if(post.title in crawledPosts):
+            continue
+
         # grab dictionary with attributes of object using vars()
         dict = vars(post)
         print(f"Parsing: ({post.title})[{postCount}:{postLimit}]\n")
