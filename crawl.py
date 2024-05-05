@@ -110,20 +110,21 @@ def crawlRedditor(redditor):
     print(f"-----------------------------------------------\nCrawling {redditor}\n")
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
+        print("Working1")
         # try to avoid error 429
         if(postCount % numPostsPerSleep == 0):
             time.sleep(sleepTime)
-        print("Working1")
+        
         # ignore posts we already crawled
         if(post.title in crawledPosts or post is None):
             print("Dupe post or none existent: ")
             postCount += 1
             continue
-
+        print("Working2")
         if(postCount > postLimit):
             print(f"Skipping {redditor}, reached search limit.\n")
             return
-        print("Working2")
+        
         # Add post to dupe check
         crawledPosts.add(post.title)
 
