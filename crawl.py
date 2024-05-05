@@ -6,10 +6,10 @@ import time
 
 # Helper Variables
 postLimit = 10000
-commentThreshold = 4
-commentLimit = 10
-sleepTime = 5
-numPostsPerSleep = 20
+commentThreshold = 2
+commentLimit = 5
+sleepTime = 2
+numPostsPerSleep = 5
 targetFileSize = 100100000
 topPostTime = "year"
 
