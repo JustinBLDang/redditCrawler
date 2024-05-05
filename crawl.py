@@ -110,7 +110,6 @@ def crawlRedditor(redditor):
     print(f"-----------------------------------------------\nCrawling {redditor}\n")
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
-        print("Working1")
         # try to avoid error 429
         if(postCount % numPostsPerSleep == 0):
             time.sleep(sleepTime)
@@ -120,7 +119,7 @@ def crawlRedditor(redditor):
             print("Dupe post or none existent: ")
             postCount += 1
             continue
-        print("Working2")
+
         if(postCount > postLimit):
             print(f"Skipping {redditor}, reached search limit.\n")
             return
@@ -156,8 +155,7 @@ def crawlRedditor(redditor):
         # Add post to items, which will be stored later in json
         items.append(sub_dict)
         postCount += 1
-
-    print("working3")
+        
     # add redditor to crawled redditors
     crawledUsers.add(redditor)
 
@@ -174,7 +172,10 @@ def main():
             print("------------------------------------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
             break
         crawlSubreddit(subReddit.get())
-        crawlRedditor(users.get())
+        
+        # ensure we get subreddits for next iteration
+        while(subReddit.empty()):
+            crawlRedditor(users.get())
 
         json_str = json.dumps(items, sort_keys=True, indent=4)
 
