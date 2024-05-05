@@ -39,6 +39,7 @@ seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     if(subreddit in crawledSubreddit):
+        print("Dupe subreddit: ")
         return
     
     print(f"-----------------------------------------------\nCrawling {subreddit}\n")
@@ -46,6 +47,7 @@ def crawlSubreddit(subreddit):
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
         # ignore posts we already crawled
         if(post.title in crawledPosts):
+            print("Dupe post: ")
             continue
 
         # Add post to dupe check
@@ -87,6 +89,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     if(redditor in crawledUsers):
+        print("Dupe redditor: ")
         return
     
     postCount = 1
@@ -95,6 +98,7 @@ def crawlRedditor(redditor):
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
         # ignore posts we already crawled
         if(post.title in crawledPosts):
+            print("Dupe post: ")
             continue
 
         # Add post to dupe check
