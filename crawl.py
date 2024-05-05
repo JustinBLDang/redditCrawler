@@ -157,6 +157,7 @@ def crawlRedditor(redditor):
         items.append(sub_dict)
         postCount += 1
 
+    print("working3")
     # add redditor to crawled redditors
     crawledUsers.add(redditor)
 
