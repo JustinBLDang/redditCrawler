@@ -113,7 +113,7 @@ def crawlRedditor(redditor):
         # try to avoid error 429
         if(postCount % numPostsPerSleep == 0):
             time.sleep(sleepTime)
-
+        print("Working1")
         # ignore posts we already crawled
         if(post.title in crawledPosts or post is None):
             print("Dupe post or none existent: ")
@@ -123,7 +123,7 @@ def crawlRedditor(redditor):
         if(postCount > postLimit):
             print(f"Skipping {redditor}, reached search limit.\n")
             return
-        print("Working")
+        print("Working2")
         # Add post to dupe check
         crawledPosts.add(post.title)
 
