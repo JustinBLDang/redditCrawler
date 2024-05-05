@@ -7,8 +7,9 @@ import time
 # Helper Variables
 postLimit = 10000
 commentThreshold = 5
-commentLimit = 20
-sleepTime = 4
+commentLimit = 14
+sleepTime = 8
+numPostsPerSleep = 28
 targetFileSize = 100100000
 topPostTime = "year"
 
@@ -49,7 +50,7 @@ def crawlSubreddit(subreddit):
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
         # try to avoid error 429
-        if(postCount % 25 == 0):
+        if(postCount % numPostsPerSleep == 0):
             time.sleep(sleepTime)
 
         # ignore posts we already crawled
@@ -109,8 +110,9 @@ def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
         # try to avoid error 429
-        if(postCount % 25 == 0):
+        if(postCount % numPostsPerSleep == 0):
             time.sleep(sleepTime)
+
         # ignore posts we already crawled
         if(post.title in crawledPosts):
             print("Dupe post: ")
