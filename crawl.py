@@ -6,10 +6,10 @@ import time
 
 # Helper Variables
 postLimit = 10000
-commentThreshold = 5
-commentLimit = 14
-sleepTime = 8
-numPostsPerSleep = 28
+commentThreshold = 4
+commentLimit = 10
+sleepTime = 5
+numPostsPerSleep = 20
 targetFileSize = 100100000
 topPostTime = "year"
 
@@ -74,7 +74,7 @@ def crawlSubreddit(subreddit):
         sub_dict = {field:dict[field] for field in fields}
 
         # Feed crawler users, add users to json, add user to dupe check
-        if(post.author.name not in crawledUsers):
+        if(post.author.name not in crawledUsers and type(post.author) is not None):
             sub_dict['author'] = post.author.name
             users.put(post.author.name)
 
