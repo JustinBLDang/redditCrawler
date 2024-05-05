@@ -4,7 +4,7 @@ import sys
 import queue
 
 # Helper Variables
-postLimit = 1
+postLimit = 10000
 commentThreshold = 5
 targetFileSize = 100100000
 topPostTime = "year"
