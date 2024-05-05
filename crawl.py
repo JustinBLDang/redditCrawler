@@ -54,8 +54,8 @@ def crawlSubreddit(subreddit):
             time.sleep(sleepTime)
 
         # ignore posts we already crawled
-        if(post.title in crawledPosts):
-            print("Dupe post: ")
+        if(post.title in crawledPosts or type(post) is None):
+            print("Dupe post or none existent: ")
             postCount += 1
             continue
 
@@ -74,9 +74,10 @@ def crawlSubreddit(subreddit):
         sub_dict = {field:dict[field] for field in fields}
 
         # Feed crawler users, add users to json, add user to dupe check
-        if(type(post.author) is not None and post.author.name not in crawledUsers):
-            sub_dict['author'] = post.author.name
-            users.put(post.author.name)
+        if(type(post.author) is not None):
+            if(post.author.name not in crawledUsers):
+                sub_dict['author'] = post.author.name
+                users.put(post.author.name)
 
         # grab all comments for the current post
         comments = []
@@ -114,8 +115,8 @@ def crawlRedditor(redditor):
             time.sleep(sleepTime)
 
         # ignore posts we already crawled
-        if(post.title in crawledPosts):
-            print("Dupe post: ")
+        if(post.title in crawledPosts or type(post) is None):
+            print("Dupe post or none existent: ")
             postCount += 1
             continue
 
