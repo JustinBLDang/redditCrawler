@@ -84,7 +84,7 @@ def crawlSubreddit(subreddit):
         postCount += 1
 
     # add subreddit to crawled subreddits
-    crawlSubreddit.add(subreddit)
+    crawledSubreddit.add(subreddit)
 
 def crawlRedditor(redditor):
     if(redditor in crawledUsers):
@@ -132,7 +132,7 @@ def crawlRedditor(redditor):
         postCount += 1
 
     # add redditor to crawled redditors
-    crawlRedditor.add(redditor)
+    crawledUsers.add(redditor)
 
 # print(sys.getsizeof(json_str))
 def main():
