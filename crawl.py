@@ -62,7 +62,6 @@ def crawlSubreddit(subreddit):
         if(post.author.name not in crawledUsers):
             sub_dict['author'] = post.author.name
             users.put(post.author.name)
-            crawledUsers.add(post.author.name)
 
         # grab all comments for the current post
         comments = []
@@ -111,7 +110,6 @@ def crawlRedditor(redditor):
         # Feed crawler subreddits, 
         if(post.subreddit.name not in crawledSubreddit):
             subReddit.put(post.subreddit.name)
-            crawledSubreddit.add(post.subreddit.name)
 
         # grab all comments for the current post
         comments = []
