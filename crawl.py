@@ -6,11 +6,11 @@ import queue
 import time
 
 # Helper Variables
-postLimit = 800
+subRedditPostLimit = 800
+userPostLimit = 100
 commentThreshold = 2
 commentLimit = 5
-sleepTime = 4
-numPostsPerSleep = 5
+sleepTime = 15
 targetFileSize = 100100000
 topPostTime = "year"
 
@@ -49,14 +49,10 @@ def crawlSubreddit(subreddit):
     
     print(f"-----------------------------------------------\nCrawling {subreddit}\n")
     postCount = 1
-    for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
+    for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = subRedditPostLimit):
         try:
             if(post.over_18):
                 print("NSFW Post:\n")
-
-            # try to avoid error 429
-            if(postCount % numPostsPerSleep == 0):
-                time.sleep(sleepTime)
 
             # ignore posts we already crawled
             if(post.title in crawledPosts or post is None):
@@ -64,7 +60,7 @@ def crawlSubreddit(subreddit):
                 postCount += 1
                 continue
 
-            if(postCount > postLimit):
+            if(postCount > subRedditPostLimit):
                 print(f"Skipping {subreddit}, reached search limit.\n")
                 return
 
@@ -73,7 +69,7 @@ def crawlSubreddit(subreddit):
 
             # grab dictionary with attributes of object using vars()
             dict = vars(post)
-            print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
+            print(f"Parsing: ({post.title})[{postCount}:{subRedditPostLimit}]")
 
             # grab specific attributes specified in fields, written above, for current post. 
             sub_dict = {field:dict[field] for field in fields}
@@ -104,6 +100,8 @@ def crawlSubreddit(subreddit):
             postCount += 1
         except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
             continue
+        except (prawcore.exceptions.TooManyRequests):
+            time.sleep(sleepTime)
 
     # add subreddit to crawled subreddits
     crawledSubreddit.add(subreddit)
@@ -116,14 +114,10 @@ def crawlRedditor(redditor):
     postCount = 1
     print(f"-----------------------------------------------\nCrawling {redditor}\n")
     # Grab new subreddits visited here as well as item essentials
-    for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
+    for post in reddit.redditor(redditor).submissions.top(limit = userPostLimit):
         try:
             if(post.over_18):
                 print("NSFW Post:\n")
-
-            # try to avoid error 429
-            if(postCount % numPostsPerSleep == 0):
-                time.sleep(sleepTime)
             
             # ignore posts we already crawled
             if(post.title in crawledPosts or post is None):
@@ -131,7 +125,7 @@ def crawlRedditor(redditor):
                 postCount += 1
                 continue
 
-            if(postCount > postLimit):
+            if(postCount > userPostLimit):
                 print(f"Skipping {redditor}, reached search limit.\n")
                 return
             
@@ -140,7 +134,7 @@ def crawlRedditor(redditor):
 
             # grab dictionary with attributes of object using vars()
             dict = vars(post)
-            print(f"Parsing: ({post.title})[{postCount}:{postLimit}]")
+            print(f"Parsing: ({post.title})[{postCount}:{userPostLimit}]")
 
             # grab specific attributes specified in fields, written above, for current post. 
             sub_dict = {field:dict[field] for field in fields}
@@ -169,6 +163,8 @@ def crawlRedditor(redditor):
             postCount += 1
         except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
             continue
+        except (prawcore.exceptions.TooManyRequests):
+            time.sleep(sleepTime)
         
     # add redditor to crawled redditors
     crawledUsers.add(redditor)
