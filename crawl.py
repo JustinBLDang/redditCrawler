@@ -89,7 +89,7 @@ def crawlSubreddit(subreddit):
             commentCount = 1
             for comment in post.comments.list():
                 print("\r", end='')
-                print(f"Downloading Comments: {commentCount}\n", end='', flush=True)
+                print(f"Downloading Comments: {commentCount}", end='', flush=True)
                 sys.stdout.flush()          
                 comments.append(comment.body)
                 commentCount += 1
@@ -185,7 +185,7 @@ def main():
         if(subReddit.empty() and users.empty()):
             print("------------------------------------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
             break
-        
+
         subRedditName = subReddit.get()
         if(subRedditExists(subRedditName)):
             crawlSubreddit(subRedditName)
