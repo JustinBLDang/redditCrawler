@@ -9,7 +9,7 @@ import time
 postLimit = 800
 commentThreshold = 2
 commentLimit = 5
-sleepTime = 2
+sleepTime = 4
 numPostsPerSleep = 5
 targetFileSize = 100100000
 topPostTime = "year"
@@ -23,7 +23,7 @@ AGENT       = "crimp go"
 items = []
 crawledUsers = set()
 crawledPosts = set()
-crawledSubreddit = set({"AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
+crawledSubreddit = set({"Helldivers", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
                         "MachineLearning", "UCDavis", "UCI", "stanford", "USC"})
@@ -40,17 +40,20 @@ reddit = praw.Reddit(
 )
 
 # Seed
-seed = "Helldivers"
+seed = "CookieRunKingdoms"
 
 def crawlSubreddit(subreddit):
     if(subreddit in crawledSubreddit):
-        print("Dupe subreddit: ")
+        print("Dupe subreddit\n")
         return
     
     print(f"-----------------------------------------------\nCrawling {subreddit}\n")
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = postLimit):
         try:
+            if(post.over_18):
+                print("NSFW Post:\n")
+
             # try to avoid error 429
             if(postCount % numPostsPerSleep == 0):
                 time.sleep(sleepTime)
@@ -115,6 +118,9 @@ def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = postLimit):
         try:
+            if(post.over_18):
+                print("NSFW Post:\n")
+
             # try to avoid error 429
             if(postCount % numPostsPerSleep == 0):
                 time.sleep(sleepTime)
