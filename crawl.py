@@ -202,8 +202,8 @@ def main():
         json_str = json.dumps(items, sort_keys=True, indent=4)
         
         #write json_str to crawl.json
-        # with open(f'{subRedditName}.json', 'w') as f:
-        #     json.dump(items, f)
+        with open(f'{subRedditName}.json', 'w') as f:
+            json.dump(items, f)
 
     
     
