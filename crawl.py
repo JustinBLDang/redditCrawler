@@ -6,7 +6,7 @@ import queue
 import time
 
 # Helper Variables
-postLimit = 5
+postLimit = 800
 commentThreshold = 2
 commentLimit = 5
 sleepTime = 2
