@@ -193,7 +193,8 @@ def main():
 
         # ensure we get subreddits for next iteration
         while(subReddit.empty()):
-            crawlRedditor(users.get())
+            if(not users.empty()):
+                crawlRedditor(users.get())
 
         json_str = json.dumps(items, sort_keys=True, indent=4)
         
