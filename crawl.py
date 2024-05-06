@@ -23,7 +23,7 @@ AGENT       = "crimp go"
 items = []
 crawledUsers = set()
 crawledPosts = set()
-crawledSubreddit = set({"Helldivers", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
+crawledSubreddit = set({"CookieRunKingdoms", "Helldivers", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
                         "MachineLearning", "UCDavis", "UCI", "stanford", "USC"})
@@ -40,7 +40,7 @@ reddit = praw.Reddit(
 )
 
 # Seed
-seed = "CookieRunKingdoms"
+seed = "OnePiece"
 
 def crawlSubreddit(subreddit):
     if(subreddit in crawledSubreddit):
@@ -209,7 +209,7 @@ def main():
         
         #write json_str to crawl.json
         with open(f'{subRedditName}.json', 'w') as f:
-            json.dump(items, f)
+            json.dump(items, f, indent=4)
 
     
     
