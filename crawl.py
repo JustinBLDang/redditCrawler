@@ -186,9 +186,11 @@ def main():
         if(subReddit.empty() and users.empty()):
             print("------------------------------------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
             break
+        
+        if(not subReddit.empty()):
+            subRedditName = subReddit.get()
 
-        subRedditName = subReddit.get()
-        if(subRedditExists(subRedditName) and not subReddit.empty()):
+        if(subRedditExists(subRedditName)):
             crawlSubreddit(subRedditName)
 
         # ensure we get subreddits for next iteration
