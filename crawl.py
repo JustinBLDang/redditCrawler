@@ -99,7 +99,7 @@ def crawlSubreddit(subreddit):
             # Create a new container that just has the field we want
             items.append(sub_dict)
             postCount += 1
-        except prawcore.exceptions.Redirect:
+        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
             continue
 
     # add subreddit to crawled subreddits
@@ -160,7 +160,7 @@ def crawlRedditor(redditor):
             # Add post to items, which will be stored later in json
             items.append(sub_dict)
             postCount += 1
-        except prawcore.exceptions.Redirect:
+        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
             continue
         
     # add redditor to crawled redditors
