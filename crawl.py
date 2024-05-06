@@ -155,6 +155,7 @@ def crawlRedditor(redditor):
                 sys.stdout.flush()  
                 comments.append(comment.body)
                 commentCount += 1
+            print("\n")
             sub_dict['comments'] = comments
 
             # Add post to items, which will be stored later in json
