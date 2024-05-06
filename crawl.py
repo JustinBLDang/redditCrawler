@@ -169,7 +169,7 @@ def crawlRedditor(redditor):
 def subRedditExists(subReddit):
     try:
         reddit.subreddits.search_by_name(subReddit, exact = True)
-    except prawcore.exceptions.Redirect:
+    except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
         return False
     return True
 
