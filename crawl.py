@@ -11,7 +11,7 @@ userPostLimit = 100
 commentThreshold = 0    
 commentLimit = None
 sleepTime = 20
-targetFileSize = 200000
+targetFileSize = 900
 reachFileSize = False
 topPostTime = "year"
 
@@ -196,7 +196,6 @@ def subRedditExists(subReddit):
         return False
     return True
 
-# print(sys.getsizeof(json_str))
 def main():
     json_str = ""
 
@@ -227,7 +226,6 @@ def main():
                 seed = userSubReddit
     print(f"\n-----------------------------------------------\nStarting Crawl for top posts within a year: Seed: {seed}")
 
-
     # Seed our crawl
     subReddit.put(seed)
 
@@ -253,7 +251,7 @@ def main():
         json_str = json.dumps(items, sort_keys=True, indent=4)
         
         #write json_str to crawl.json
-        with open(f'{subRedditName}.json', 'w') as f:
+        with open(f'{subRedditName}.json', 'a') as f:
             json.dump(items, f, indent=4)
     
     # Output Subreddits for double checking dupes
