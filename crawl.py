@@ -175,6 +175,7 @@ def subRedditExists(subReddit):
         reddit.subreddits.search_by_name(subReddit, exact = True)
     except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
         return False
+    print("Working")
     return True
 
 # print(sys.getsizeof(json_str))
