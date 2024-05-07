@@ -8,10 +8,9 @@ import time
 # Helper Variables
 subRedditPostLimit = 1000
 userPostLimit = 100
-commentThreshold = 2
+commentThreshold = 2    # Limit to speed up crawl, I kinda want diverse amount of data
 commentLimit = 5
-sleepTime = 15
-targetFileSize = 100100000
+targetFileSize = 90000
 topPostTime = "year"
 
 # Reddit developer account: 
@@ -235,7 +234,7 @@ def main():
         
         #write json_str to crawl.json
         with open(f'{subRedditName}.json', 'w') as f:
-            json.dump(items, f)
+            json.dump(items, f, indent=4)
     
     # Output Subreddits for double checking dupes
     print(crawledSubreddit)
