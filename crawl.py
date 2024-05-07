@@ -57,7 +57,7 @@ def crawlSubreddit(subreddit):
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = subRedditPostLimit):
         try:
-            if(sys.getsizeof(items) < targetFileSize):
+            if(sys.getsizeof(items) > targetFileSize):
                 print("Reached desired file size.")
                 reachFileSize = True
                 return
@@ -131,7 +131,7 @@ def crawlRedditor(redditor):
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = userPostLimit):
         try:
-            if(sys.getsizeof(items) < targetFileSize):
+            if(sys.getsizeof(items) > targetFileSize):
                 print("Reached desired file size.")
                 reachFileSize = True
                 return
