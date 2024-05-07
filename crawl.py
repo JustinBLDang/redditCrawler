@@ -24,11 +24,11 @@ AGENT       = "crimp go"
 items = []
 crawledUsers = set()
 crawledPosts = set()
-crawledSubreddit = set()
-# crawledSubreddit = set({"CookieRunKingdoms", "Helldivers", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
-#                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
-#                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
-#                         "MachineLearning", "UCDavis", "UCI", "stanford", "USC"})
+# crawledSubreddit = set()
+crawledSubreddit = set({"CookieRunKingdoms", "OnePiece", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
+                        "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
+                        "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
+                        "MachineLearning", "UCDavis", "UCI", "stanford", "USC"})
 users = queue.Queue()
 subReddit = queue.Queue()
 fields = ('permalink', 'id', 'title', 'url','selftext','score', 'upvote_ratio', 'created_utc', 'num_comments')
@@ -42,7 +42,7 @@ reddit = praw.Reddit(
 )
 
 # Seed
-seed = "OnePiece"
+seed = "Helldivers"
 
 def crawlSubreddit(subreddit):
     global reachFileSize
