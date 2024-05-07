@@ -10,7 +10,7 @@ subRedditPostLimit = 1000
 userPostLimit = 100
 commentThreshold = 0    
 commentLimit = None
-sleepTime = 20
+sleepTime = 10
 targetFileSize = 50000000
 reachFileSize = False
 topPostTime = "year"
@@ -24,7 +24,7 @@ AGENT       = "crimp go"
 items = []
 crawledUsers = set()
 crawledPosts = set()
-crawledSubreddit = set()
+# crawledSubreddit = set()
 crawledSubreddit = set({"CookieRunKingdoms", "OnePiece", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
