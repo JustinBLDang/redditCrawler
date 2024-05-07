@@ -12,6 +12,7 @@ commentThreshold = 0
 commentLimit = None
 sleepTime = 20
 targetFileSize = 100
+reachFileSize = False
 topPostTime = "year"
 
 # Reddit developer account: 
@@ -48,10 +49,18 @@ def crawlSubreddit(subreddit):
         print("Dupe subreddit\n")
         return
     
+    if(reachFileSize):
+        return
+    
     print(f"-----------------------------------------------\nCrawling {subreddit}\n")
     postCount = 1
     for post in reddit.subreddit(subreddit).top(time_filter = topPostTime, limit = subRedditPostLimit):
         try:
+            if(sys.getsizeof(items) < targetFileSize):
+                print("Reached desired file size.")
+                reachFileSize = True
+                return
+            
             if(post.over_18):
                 print("NSFW Post:\n")
 
@@ -112,11 +121,19 @@ def crawlRedditor(redditor):
         print("Dupe redditor: ")
         return
     
+    if(reachFileSize):
+        return
+    
     postCount = 1
     print(f"-----------------------------------------------\nCrawling {redditor}\n")
     # Grab new subreddits visited here as well as item essentials
     for post in reddit.redditor(redditor).submissions.top(limit = userPostLimit):
         try:
+            if(sys.getsizeof(items) < targetFileSize):
+                print("Reached desired file size.")
+                reachFileSize = True
+                return
+            
             if(post.over_18):
                 print("NSFW Post:\n")
             
