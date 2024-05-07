@@ -10,8 +10,8 @@ subRedditPostLimit = 1000
 userPostLimit = 100
 commentThreshold = 0    
 commentLimit = None
-sleepTime = 10
-targetFileSize = 50000000
+sleepTime = 5
+targetFileSize = 500000000
 reachFileSize = False
 topPostTime = "year"
 
@@ -109,7 +109,7 @@ def crawlSubreddit(subreddit):
             # Create a new container that just has the field we want
             items.append(sub_dict)
             postCount += 1
-        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
+        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exceptions.Forbidden):
             continue
         except (prawcore.exceptions.TooManyRequests):
             time.sleep(sleepTime)
@@ -181,7 +181,7 @@ def crawlRedditor(redditor):
             # Add post to items, which will be stored later in json
             items.append(sub_dict)
             postCount += 1
-        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
+        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exceptions.Forbidden):
             continue
         except (prawcore.exceptions.TooManyRequests):
             time.sleep(sleepTime)
