@@ -180,7 +180,7 @@ def subRedditExists(subReddit):
 def main():
     json_str = ""
 
-    print(f"Welcome to jdang065 crawler.\n\nEnter \"1\" for default seed subreddit or \"2\" to enter your own.\n")
+    print(f"Welcome to jdang065 crawler.\n\nEnter \"1\" for default seed subreddit or \"2\" to enter your own: ")
 
     # Prompt user
     correctInput = False
@@ -190,20 +190,22 @@ def main():
         if(userInput == 2):
             correctInput = True
         else:
-            print("Please enter \"1\" for default seed subreddit or \"2\" to enter your own.\n ")
-    
+            print("Please enter \"1\" for default seed subreddit or \"2\" to enter your own: ", end="\r")
+    print("\n")
+
     # Get custom subreddit seed
     if(userInput == 2):
-        print("Please enter the subreddit you wish to seed with(Case Sensitive): ")
+        print("Please enter the subreddit you wish to seed with(Case Sensitive): ", end = "\r")
         correctInput = False
         while(not correctInput):
             userInput = int(input())
 
             if(not subRedditExists(userInput)):
-                print("Please enter an existing subreddit you wish to seed with(Case Sensitive): ")
+                print("Please enter an existing subreddit you wish to seed with(Case Sensitive): ", end = "\r")
             else:
                 correctInput = True
-                print("\n")
+                seed = userInput
+    print(f"\n------------------------------------------------------------------------\nStarting Crawl: Seed: {seed}")
 
 
     # Seed our crawl
