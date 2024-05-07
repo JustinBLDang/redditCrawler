@@ -11,7 +11,7 @@ userPostLimit = 100
 commentThreshold = 0    
 commentLimit = None
 sleepTime = 20
-targetFileSize = 900
+targetFileSize = 50000000
 reachFileSize = False
 topPostTime = "year"
 
