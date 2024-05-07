@@ -119,6 +119,7 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     global reachFileSize
+    global seed
     if(redditor in crawledUsers):
         print("Dupe redditor: ")
         return
