@@ -175,7 +175,6 @@ def subRedditExists(subReddit):
         reddit.subreddits.search_by_name(subReddit, exact = True)
     except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exceptions.Forbidden):
         return False
-    print("Working")
     return True
 
 # print(sys.getsizeof(json_str))
@@ -207,7 +206,7 @@ def main():
             else:
                 correctInput = True
                 seed = userSubReddit
-    print(f"\n------------------------------------------------------------------------\nStarting Crawl: Seed: {seed}")
+    print(f"\n-----------------------------------------------\nStarting Crawl for top posts within a year: Seed: {seed}")
 
 
     # Seed our crawl
@@ -217,7 +216,7 @@ def main():
     # continue scraping through users and subreddits the user has posted in
     while((sys.getsizeof(json_str) < targetFileSize)):
         if(subReddit.empty() and users.empty()):
-            print("------------------------------------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
+            print("-----------------------------------------------\nCould not finish, unable to find unique users and subreddits\n")
             break
         
         if(not subReddit.empty()):
