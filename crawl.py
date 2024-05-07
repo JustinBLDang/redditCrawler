@@ -198,6 +198,7 @@ def subRedditExists(subReddit):
 
 def main():
     global seed
+    global items
     json_str = ""
 
     print(f"Welcome to jdang065 crawler.\n\nEnter \"1\" for default seed subreddit or \"2\" to enter your own: ")
@@ -240,20 +241,27 @@ def main():
         if(not subReddit.empty()):
             subRedditName = subReddit.get()
 
+        items = []
         if(subRedditExists(subRedditName)):
             crawlSubreddit(subRedditName)
+        
+        #write json_str to crawl.json
+        json_str = json.dumps(items, sort_keys=True, indent=4)
+        with open(f'{subRedditName}.json', 'a') as f:
+            json.dump(items, f, indent=4)
 
         # ensure we get subreddits for next iteration
         while(subReddit.empty()):
             if(users.empty()):
                 break
-            crawlRedditor(users.get())
-
-        json_str = json.dumps(items, sort_keys=True, indent=4)
+            items = []
+            user = users.get()
+            crawlRedditor(user)
         
-        #write json_str to crawl.json
-        with open(f'{subRedditName}.json', 'a') as f:
-            json.dump(items, f, indent=4)
+            #write json_str to crawl.json
+            json_str = json.dumps(items, sort_keys=True, indent=4)
+            with open(f'{subRedditName}.json', 'a') as f:
+                json.dump(items, f, indent=4)
     
     # Output Subreddits for double checking dupes
     print(crawledSubreddit)
