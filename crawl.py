@@ -173,7 +173,7 @@ def crawlRedditor(redditor):
 def subRedditExists(subReddit):
     try:
         reddit.subreddits.search_by_name(subReddit, exact = True)
-    except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
+    except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exceptions.Forbidden):
         return False
     print("Working")
     return True
