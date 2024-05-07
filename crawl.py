@@ -8,9 +8,10 @@ import time
 # Helper Variables
 subRedditPostLimit = 1000
 userPostLimit = 100
-commentThreshold = 2    # Limit to speed up crawl, I kinda want diverse amount of data
-commentLimit = 5
-targetFileSize = 90000
+commentThreshold = 0    
+commentLimit = None
+sleepTime = 20
+targetFileSize = 100
 topPostTime = "year"
 
 # Reddit developer account: 
