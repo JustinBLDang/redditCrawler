@@ -24,7 +24,7 @@ AGENT       = "crimp go"
 items = []
 crawledUsers = set()
 crawledPosts = set()
-# crawledSubreddit = set()
+crawledSubreddit = set()
 crawledSubreddit = set({"CookieRunKingdoms", "OnePiece", "AskComputerScience", "funny", "memes", "AskReddit", "sports", "soccer", "baseball", "science", 
                         "askscience", "explainlikeimfive", "Food", "Futurology", "NBA", "Technology", "vidoes", "StardewValley", "history", 
                         "AskHistorians", "WritingPrompts", "leagueoflegends", "news", "worldnews", "books", "gaming", "dataisbeautiful", 
