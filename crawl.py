@@ -206,7 +206,7 @@ def main():
                 print("Please enter an existing subreddit you wish to seed with(Case Sensitive): ")
             else:
                 correctInput = True
-                seed = userInput
+                seed = userSubReddit
     print(f"\n------------------------------------------------------------------------\nStarting Crawl: Seed: {seed}")
 
 
