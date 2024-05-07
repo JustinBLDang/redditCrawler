@@ -206,7 +206,7 @@ def main():
     while(not correctInput):
         userInput = int(input())
 
-        if(userInput == 2):
+        if(userInput == 2 or userInput == 1):
             correctInput = True
         else:
             print("Please enter \"1\" for default seed subreddit or \"2\" to enter your own: ")
