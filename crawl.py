@@ -185,7 +185,7 @@ def main():
     # Prompt user
     correctInput = False
     while(not correctInput):
-        userInput = input()
+        userInput = int(input())
 
         if(userInput == 2):
             correctInput = True
@@ -197,7 +197,7 @@ def main():
         print("Please enter the subreddit you wish to seed with(Case Sensitive): ")
         correctInput = False
         while(not correctInput):
-            userInput = input()
+            userInput = int(input())
 
             if(not subRedditExists(userInput)):
                 print("Please enter an existing subreddit you wish to seed with(Case Sensitive): ")
