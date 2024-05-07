@@ -6,7 +6,7 @@ import queue
 import time
 
 # Helper Variables
-subRedditPostLimit = 800
+subRedditPostLimit = 1000
 userPostLimit = 100
 commentThreshold = 2
 commentLimit = 5
@@ -98,7 +98,7 @@ def crawlSubreddit(subreddit):
             # Create a new container that just has the field we want
             items.append(sub_dict)
             postCount += 1
-        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
+        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
             continue
         except (prawcore.exceptions.TooManyRequests):
             time.sleep(sleepTime)
@@ -161,7 +161,7 @@ def crawlRedditor(redditor):
             # Add post to items, which will be stored later in json
             items.append(sub_dict)
             postCount += 1
-        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
+        except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
             continue
         except (prawcore.exceptions.TooManyRequests):
             time.sleep(sleepTime)
@@ -172,13 +172,40 @@ def crawlRedditor(redditor):
 def subRedditExists(subReddit):
     try:
         reddit.subreddits.search_by_name(subReddit, exact = True)
-    except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound):
+    except (prawcore.exceptions.Redirect, prawcore.exceptions.NotFound, prawcore.exception.Forbidden):
         return False
     return True
 
 # print(sys.getsizeof(json_str))
 def main():
     json_str = ""
+
+    print(f"Welcome to jdang065 crawler.\n\nEnter \"1\" for default seed subreddit or \"2\" to enter your own.\n")
+
+    # Prompt user
+    correctInput = False
+    while(not correctInput):
+        userInput = input()
+
+        if(userInput == 2):
+            correctInput = True
+        else:
+            print("Please enter \"1\" for default seed subreddit or \"2\" to enter your own.\n ")
+    
+    # Get custom subreddit seed
+    if(userInput == 2):
+        print("Please enter the subreddit you wish to seed with(Case Sensitive): ")
+        correctInput = False
+        while(not correctInput):
+            userInput = input()
+
+            if(not subRedditExists(userInput)):
+                print("Please enter an existing subreddit you wish to seed with(Case Sensitive): ")
+            else:
+                correctInput = True
+                print("\n")
+
+
     # Seed our crawl
     subReddit.put(seed)
 
@@ -205,9 +232,7 @@ def main():
         
         #write json_str to crawl.json
         with open(f'{subRedditName}.json', 'w') as f:
-            json.dump(items, f, indent=4)
-
-    
+            json.dump(items, f)
     
     # Output Subreddits for double checking dupes
     print(crawledSubreddit)
