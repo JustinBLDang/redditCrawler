@@ -45,6 +45,7 @@ reddit = praw.Reddit(
 seed = "OnePiece"
 
 def crawlSubreddit(subreddit):
+    global reachFileSize
     if(subreddit in crawledSubreddit):
         print("Dupe subreddit\n")
         return
@@ -117,6 +118,7 @@ def crawlSubreddit(subreddit):
     crawledSubreddit.add(subreddit)
 
 def crawlRedditor(redditor):
+    global reachFileSize
     if(redditor in crawledUsers):
         print("Dupe redditor: ")
         return
