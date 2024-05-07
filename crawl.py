@@ -119,7 +119,6 @@ def crawlSubreddit(subreddit):
 
 def crawlRedditor(redditor):
     global reachFileSize
-    global seed
     if(redditor in crawledUsers):
         print("Dupe redditor: ")
         return
@@ -198,6 +197,7 @@ def subRedditExists(subReddit):
     return True
 
 def main():
+    global seed
     json_str = ""
 
     print(f"Welcome to jdang065 crawler.\n\nEnter \"1\" for default seed subreddit or \"2\" to enter your own: ")
