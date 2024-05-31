@@ -3,7 +3,7 @@ logging.disable(sys.maxsize)
 
 import lucene
 import os
-from org.apache.lucene.store import MMapDirectory, SimpleFSDirectory, NIOFSDirectory
+from lucene import MMapDirectory, SimpleFSDirectory, NIOFSDirectory
 from java.nio.file import Paths
 from org.apache.lucene.analysis.standard import StandardAnalyzer
 from org.apache.lucene.document import Document, Field, FieldType
