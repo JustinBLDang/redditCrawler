@@ -38,6 +38,7 @@ def create_index(dir):
         if regex.fullmatch(filename):
             with open(os.path.join(os.getcwd(), filename), 'r') as f:
                 data = json.load(f)
+                print(type(data))
                 permalink = data['permalink']
                 id = data['id']
                 title = data["title"]
