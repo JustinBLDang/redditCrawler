@@ -3,6 +3,8 @@ logging.disable(sys.maxsize)
 
 import lucene
 import os
+import re
+import json
 from org.apache.lucene.store import MMapDirectory, SimpleFSDirectory, NIOFSDirectory
 from java.nio.file import Paths
 from org.apache.lucene.analysis.standard import StandardAnalyzer
@@ -11,22 +13,6 @@ from org.apache.lucene.queryparser.classic import QueryParser
 from org.apache.lucene.index import FieldInfo, IndexWriter, IndexWriterConfig, IndexOptions, DirectoryReader
 from org.apache.lucene.search import IndexSearcher, BoostQuery, Query
 from org.apache.lucene.search.similarities import BM25Similarity
-
-sample_doc = [
-    {
-        'title' : 'A',
-        'context' : 'lucene is a useful tool for searching and information retrieval'
-        },
-    {
-        'title' : 'B',
-        'context' : 'Bert is a deep learning transformer model for encoding textual data'
-    },
-    {
-        'title' : 'C',
-        'context' : 'Django is a python web framework for building backend web APIs'
-    }
-]
-
 
 def create_index(dir):
     if not os.path.exists(dir):
@@ -45,15 +31,41 @@ def create_index(dir):
     contextType.setStored(True)
     contextType.setTokenized(True)
     contextType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS)
+    
+    regex = re.compile('.*[1234567890]+\.json')
 
-    for sample in sample_doc:
-        title = sample['title']
-        context = sample['context']
+    for filename in os.listdir(os.getcwd()):
+        if regex.fullmatch(filename):
+            with open(os.path.join(os.getcwd(), filename), 'r') as f:
+                data = json.load(f)
+                permalink = data['permalink']
+                id = data['id']
+                title = data["title"]
+                url = data["url"]
+                selftext = data["selftext"]
+                score = data["score"]
+                upvote_ratio = data["upvote_ratio"]
+                created_utc = data["created_utc"]
+                num_comments = data["num_comments"]
+                author = data["author"]
+                comments = data["comments"]
 
-        doc = Document()
-        doc.add(Field('Title', str(title), metaType))
-        doc.add(Field('Context', str(context), contextType))
-        writer.addDocument(doc)
+                doc = Document()
+                doc.add(Field('Permalink', str(permalink), metaType))
+                doc.add(Field('Id', str(id), metaType))
+                doc.add(Field('Url', str(url), metaType))
+                doc.add(Field('Title', str(title), contextType))
+                doc.add(Field('Selftext', str(selftext), contextType))
+                doc.add(Field('Score', str(score), metaType))
+                doc.add(Field('Upvote_ratio', str(upvote_ratio), metaType))
+                doc.add(Field('Created_utc', str(created_utc), metaType))
+                doc.add(Field('Num_comments', str(num_comments), metaType))
+                doc.add(Field('Author', str(author), metaType))
+                for comment in comments:
+                    doc.add(Field('Comment', str(comment), contextType))
+
+                f.close()
+                writer.addDocument(doc)
     writer.close()
 
 def retrieve(storedir, query):
@@ -67,16 +79,29 @@ def retrieve(storedir, query):
     topkdocs = []
     for hit in topDocs:
         doc = searcher.doc(hit.doc)
-        topkdocs.append({
-            "score": hit.score,
-            "text": doc.get("Context")
-        })
+        print(hit)
+        print(doc)
+        # topkdocs.append({
+        #     "score": hit.score,
+        #     "text": doc.get("Context")
+        # })
+    return topkdocs
     
-    print(topkdocs)
-
+# need to change directory to match cs172 server directory
+directory = "/home/csmajs/jdang065/cs172/redditCrawler"
 
 lucene.initVM(vmargs=['-Djava.awt.headless=true'])
-create_index('sample_lucene_index/')
-retrieve('sample_lucene_index/', 'web data')
+create_index(directory)
+query = "experiment"
+loop = True
+while loop:
+    print("\nHit enter with no input to quit.")
+    query = input("Enter a string: ")
+    while(isinstance(query, str)):
+        if query == '':
+            loop = False
+            break
+        
+        topkDocs = retrieve(directory, query)
 
 
