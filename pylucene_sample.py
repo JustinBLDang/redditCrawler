@@ -89,7 +89,7 @@ def retrieve(storedir, query):
     return topkdocs
     
 # need to change directory to match cs172 server directory
-directory = "/home/csmajs/jdang065/cs172/redditCrawler"
+directory = "/home/cs172/redditCrawler"
 
 lucene.initVM(vmargs=['-Djava.awt.headless=true'])
 create_index(directory)
