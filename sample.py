@@ -5,7 +5,7 @@ logging.disable(sys.maxsize)
 
 import os
 from pathlib import Path
-from java.nio.file import Paths
+# from java.nio.file import Paths
 
 from org.apache.lucene.analysis.standard import StandardAnalyzer
 from org.apache.lucene.document import Document, Field, FieldType
