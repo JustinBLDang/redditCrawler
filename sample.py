@@ -4,10 +4,10 @@ import json
 import logging, sys
 logging.disable(sys.maxsize)
 
-import lucene
 import os
-from org.apache.lucene.store import MMapDirectory, SimpleFSDirectory, NIOFSDirectory
+import lucene
 from java.nio.file import Paths
+from org.apache.lucene.store import MMapDirectory, SimpleFSDirectory, NIOFSDirectory
 from org.apache.lucene.analysis.standard import StandardAnalyzer
 from org.apache.lucene.document import Document, Field, FieldType
 from org.apache.lucene.queryparser.classic import QueryParser
