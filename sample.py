@@ -93,7 +93,7 @@ def retrieve(storedir, query):
 # need to change directory to match cs172 server directory
 directory = "/home/cs172/redditCrawler"
 
-sample.initVM(vmargs=['-Djava.awt.headless=true'])
+lucene.initVM(vmargs=['-Djava.awt.headless=true'])
 create_index(directory)
 query = "experiment"
 loop = True
