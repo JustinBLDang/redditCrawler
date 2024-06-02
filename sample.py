@@ -5,7 +5,6 @@ logging.disable(sys.maxsize)
 
 import os
 from pathlib import Path
-import cs172.redditCrawler.sample as sample
 from java.nio.file import Paths
 
 from org.apache.lucene.analysis.standard import StandardAnalyzer
